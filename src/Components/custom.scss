@@ -1,0 +1,14 @@
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap/scss/_navbar.scss';
+@import '~bootstrap/scss/_containers.scss';
+@import '~bootstrap/scss/_buttons.scss'
+
+.container {
+    max-width: 2500px !important;
+}
+
+.btn {
+    padding: 0;
+}
+
+// NOTE: imported bootstrap AFTER overriden defaults listed above

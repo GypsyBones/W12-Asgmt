@@ -3,6 +3,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+    background-image: linear-gradient( rgb(133, 112, 153), rgb(28, 24, 32));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -11,3 +12,49 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.movie {
+  background-color: rgb(154, 138, 168);
+  padding: 5px;
+  width: 250px;
+  margin: 1rem;
+  border-style: ridge;
+  border-width: 5px;
+  border-color: rgb(90, 71, 133);
+  box-shadow: 4px 4px 8px rgb(5, 0, 10);
+  overflow: hidden;
+}
+.movie:hover {
+  border-color: rgb(153, 76, 240);
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1800px;
+}
+
+.movie img {
+  max-width: 100%;
+}
+
+.movie-info-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.movie-info-btn.btn-link {
+  padding: 0px !important;
+  font-size: 24px;
+}
+
+
+.movie-info-btn h5 {
+  margin: 0;
+  padding: 0px !important;
+}
+
