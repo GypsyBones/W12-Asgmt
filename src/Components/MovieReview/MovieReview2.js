@@ -3,12 +3,11 @@ import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import { Rating } from "react-simple-star-rating";
 import { toast } from "react-toastify";
 import axios from "axios";
-import '../../index.css'
 
 const REVIEW_API = 'https://65a096c3600f49256fb0123d.mockapi.io/api/v1/Movies/';
 //{REVIEW_API} + {movieID:movieID} + "/Reviews"
 const MovieReview = ({movieID}) => {
-    console.log({movieID});
+    console.log(`This is the movieID at MovieReview:` + movieID);
     const [reviews, setReviews] = useState([]);
     // lists the reviews from the API
      const [updateReviews, setUpdateReviews] = useState(false); 
@@ -26,14 +25,15 @@ const MovieReview = ({movieID}) => {
         setReview({...review, name: value });
     };
 
+    console.log(`Prior to the useEffect:`, movieID)
     useEffect(() => {
         const getReviews = async () => {
             try {
-                const { data = [] } = await axios.get(
-                `https://65a096c3600f49256fb0123d.mockapi.io/api/v1/Movies/${movieID}/Reviews`,
+                const data = await axios.get(
+                    `https://65a096c3600f49256fb0123d.mockapi.io/api/v1/Movies/${movieID}/Reviews`,
                 );
 
-                setReviews(data.reverse());
+                setReviews(data);
                 setUpdateReviews(false);
                 setReview({});
             } catch (error) {
@@ -76,24 +76,11 @@ const MovieReview = ({movieID}) => {
 
     return(
         <div className="movie-reviews">
-            {reviews.length ? (
-                <div className="reviews">
-                {reviews.map(({ id, text, stars, name, createdAt }) => (
-                    <div className="review" key={`${movieID} + ${id}`}>
-                        <div className="name">
-                            <span>{name}</span>
-                        <Rating size={15} readonly initialValue={stars} />
-                        </div>
-                        <p>Reviewed at: {new Date(createdAt).toLocaleDateString()}</p>
-                        <p>{text}</p>
-                    </div>
-                ))}
-                </div>
-            ) : null}
             <div>
                 <h4>Create a Review!</h4>
                 <Form>
                     <FormGroup>
+                        <Label for="exampletext">Overall Rating</Label>
                         <div>
                             <Rating 
                             onClick={handleRating}
@@ -103,25 +90,38 @@ const MovieReview = ({movieID}) => {
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="reviewText">Leave your review here:</Label>
+                        <Label for="reviewText">Leave your review here</Label>
                         <Input
-                        placeholder="Name"
                         type="namearea"
                         name="nameText"
                         id="nameText"
                         onChange={handleNameText}
                         />
                         <Input
-                        placeholder="Review"
                         type="textarea"
                         name="reviewText"
                         id="reviewText"
                         onChange={handleReviewText}
                         />
                     </FormGroup>
-                    <Button color="primary" onClick={handleSubmit}>Submit</Button>
+                    <Button color="info" onClick={handleSubmit}>Submit</Button>
                 </Form>
             </div>
+            {reviews.length ? (
+                <div className="reviews">
+                <h2>Customer Reviews</h2>
+                {reviews.map(({ text, stars, name, createdAt }) => (
+                    <div className="review">
+                        <div className="name">
+                            <span>{name}</span>
+                        <Rating size={24} readonly initialValue={stars} />
+                        </div>
+                        <p>Reviewed at: {new Date(createdAt).toLocaleDateString()}</p>
+                        <p>{text}</p>
+                    </div>
+                ))}
+                </div>
+            ) : null}
         </div>
     )
 };

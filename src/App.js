@@ -14,10 +14,11 @@ function App() {
     })
   }, [])
 
+  console.log(movies[0])
   return (
     <div className="container">
       {movies.length > 0 && movies.map((movie) => 
-      <Movie key={movie.id} {...movie} />
+      <Movie key={movie.id} movie={movie} />
       )}
     </div>
   )

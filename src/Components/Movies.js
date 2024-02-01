@@ -1,70 +1,99 @@
 import React from "react";
-import { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Col, Row, Collapse} from 'reactstrap';
-import MovieReview from './MovieReview/MovieReview'
+import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Button, Row, Col, Collapse } from "reactstrap";
+import MovieReview from "./MovieReview/MovieReview";
+import '../index.css'
 
-const LIST_API = 'https://65a096c3600f49256fb0123d.mockapi.io/api/v1/Movies/';
+//const LIST_API = 'https://65a096c3600f49256fb0123d.mockapi.io/api/v1/Movies/';
 
-const Movie = ({ id, title, year, synopsis, poster, rating, director, writers, starring }) => {
-    const [open, setOpen] = useState(false);
-
-    return (
-    <>
-        <div className="movie" id={id}>
-            <img src={poster} alt={title} />
-            <div className="movie-info-btn">
+const Movie = ({ movie }) => {
+  const {
+    id,
+    title,
+    year,
+    director,
+    writers,
+    starring,
+    rating,
+    synopsis,
+    poster,
+  } = movie;
+  const [open, setOpen] = useState(false);
+  console.log(open);
+  return (
+    <div>
+      <div>
+          <div className='col'>
+            <div className='movie' id={id}>
+              <img src={poster} alt={title} />
+              <div className='movie-info-btn'>
                 <Button
-                    color="link" 
-                    onClick={() => setOpen(!open)}  
-                    aria-controls="movie-info" 
-                    aria-expanded={open}
-                    >
-                        <h5>{title}</h5>
+                  color='link'
+                  onClick={() => setOpen(true)}
+                  aria-controls='movie-info'
+                  aria-expanded={open}
+                >
+                  <h5>{title}</h5>
                 </Button>
                 <span>{rating}★</span>
+              </div>
             </div>
-            <Collapse in={open}>
-                <div id="movie-info" className="movie-info">
-                    <Col>
-                        <img src={poster} alt={title} />
-                    </Col>
-                    <Col>
-                        <Row>
-                            <h3>{title}</h3>
-                            <span>{year}</span>
-                        </Row>
-                        <h5>
-                            Directed by {director}
-                            Written by {writers}
-                        </h5>
-                        <p>
-                            {synopsis}
-                        </p>
-                        <h5>
-                            {starring}
-                        </h5>
-                    </Col>
-                    <Col>
-                        <Row>
-                            <h4>{rating}</h4>
-                            <Button variant="close"></Button>
-                        </Row>
-                        <h3>Reviews</h3>
-                        <MovieReview movieID={Movie.id}/>
-                    </Col>
-                </div>
-            </Collapse>
         </div>
-    </>
-)};
+        {open === true && (
+        <Collapse isOpen={open}>  
+          <Row className="movie-toggle">
+            <Col>
+              <Row>
+                <Col id='movie-info' className='col-3 movie-info'>
+                  <div>
+                    <img src={poster} alt={title} width='250px' />
+                  </div>
+                </Col>
+                <Col className='col info-container'>
+                  <div className="titleContainer">
+                    <h3>{title}</h3>{year}
+                  </div>
+                  <div className="infoItems">
+                    <h5>Directed by {director}</h5>
+                    <h6>Written by {writers}</h6>
+                  </div>
+                  <div className="infoItems">
+                    <p>{synopsis}</p>
+                  </div>
+                  <div className="infoItems">
+                    <h5>Starring {starring}</h5>
+                  </div>
+                </Col>
+                <Col className='col'>
+                  <div>
+                    <Row className="btnContainer">
+                      <Button className="close" variant='close' onClick={() => setOpen(false)}>
+                        X
+                      </Button>
+                    </Row>
+                    <Row className="review-col">
+                      <div>
+                        <h2>Reviews</h2>
+                      </div>
+                      <h4>{rating}★</h4>
+                      <div>
+                        <MovieReview movieID={id} />
+                      </div>
+                    </Row>
+                  </div>
+                </Col>
+              </Row>
+            </Col>
+          </Row>  
+        </Collapse>
+        )}
+      </div>
+    </div>
+  );
+};
 
-/*TODO add a card body toggle here? Toggles a span across the page that covers all movie information
-also put reviews to the right, with a scroll feature, and the form is at the top, and is expandable 
-when you click on the link 'add a review' HOW DO YOU GET A POPUP FORM???? 
-also darken everything else out on the screen
-also like the thought of the movie image being on the left of the information toggle, and
-the information toggle being center screen, almost like it's zoomed in (wonder if the toggle could really
-    just be a whole ass popup too? can you do a popup on top of a popup?)
+/*TODO if/else statement that closes any other toggled movie section to close before opening the new one
+
 */
-export default Movie
+export default Movie;
