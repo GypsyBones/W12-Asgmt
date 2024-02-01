@@ -13,7 +13,11 @@ const MovieReview = ({movieID}) => {
     // lists the reviews from the API
      const [updateReviews, setUpdateReviews] = useState(false); 
     // updates the reivews, Boolean, when new review added, re-trigger API to get the latest one
-    const [review, setReview] = useState({});
+    const [review, setReview] = useState({
+        stars: "",
+        name: "",
+        text: ""
+    });
     //a single review added by the guest
 
     const handleRating = (newRating) => {
@@ -43,9 +47,9 @@ const MovieReview = ({movieID}) => {
         getReviews();
     }, [movieID, updateReviews]);
 
-    const handleSubmit = async() => {
+    const handleSubmit = async() => { 
         console.log(`This is the movieID at handleSubmit:` + movieID)
-        if (!review.text || !review.stars) {
+        if (!review.text || !review.stars || !review.name) {
             toast.error("Both review stars and all text fields are required", {
                 hideProgressBar: true,
             });
@@ -54,10 +58,9 @@ const MovieReview = ({movieID}) => {
         if (review.text && review.stars && review.name && movieID) {
             try {
                 await axios.post(
-                    REVIEW_API,
+                    `https://65a096c3600f49256fb0123d.mockapi.io/api/v1/Movies/${movieID}/Reviews`,
                     {
-                        ...review,
-                        movieID,
+                        ...review
                     }
                 );
                 setUpdateReviews(true);
@@ -71,7 +74,12 @@ const MovieReview = ({movieID}) => {
             toast.error("An error has occurred!", {
                 hideProgressBar: true,
             });
-        }
+        };
+        setReview({
+        stars: "",
+        name: "",
+        text: ""
+        })
     };
 
     return(
@@ -79,13 +87,13 @@ const MovieReview = ({movieID}) => {
             {reviews.length ? (
                 <div className="reviews">
                 {reviews.map(({ id, text, stars, name, createdAt }) => (
-                    <div className="review" key={`${movieID} + ${id}`}>
-                        <div className="name">
+                    <div className="review" key={`${movieID}:${id}`}>
+                        <div className="reviewName">
                             <span>{name}</span>
-                        <Rating size={15} readonly initialValue={stars} />
+                        <Rating className="reviewStars"size={15} readonly initialValue={stars} />
                         </div>
-                        <p>Reviewed at: {new Date(createdAt).toLocaleDateString()}</p>
-                        <p>{text}</p>
+                        <p className='reviewDate'>Reviewed at: {new Date(createdAt).toLocaleDateString()}</p>
+                        <p className='reviewText'>{text}</p>
                     </div>
                 ))}
                 </div>
@@ -109,6 +117,7 @@ const MovieReview = ({movieID}) => {
                         type="namearea"
                         name="nameText"
                         id="nameText"
+                        value={review.name}
                         onChange={handleNameText}
                         />
                         <Input
@@ -116,6 +125,7 @@ const MovieReview = ({movieID}) => {
                         type="textarea"
                         name="reviewText"
                         id="reviewText"
+                        value={review.text}
                         onChange={handleReviewText}
                         />
                     </FormGroup>

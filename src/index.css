@@ -64,10 +64,10 @@ code {
 
 .movie-toggle {
   display: flex;
-  padding: 25px;
+  padding: 15px;
   justify-content: space-between;
   align-items: center;
-  height: 400px;
+  height: 390px;
   background-color: rgb(154, 138, 168);
   width: 100%;
   overflow: hidden;
@@ -83,6 +83,8 @@ code {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .infoItems {
@@ -91,19 +93,24 @@ code {
 
 .btnContainer {
   position: relative;
-  margin-bottom: 10px;
+  margin: 0;
+  padding: 0px;
   font-size: 35px;
   align-items: center;
   justify-content: flex-end;
 }
-
+.empty {
+  visibility: hidden;
+}
 .button-close {
-  width: 25px !important;
+  width: 40px !important;
   position: absolute;
+  font-size: 25px;
 }
 
 .review-col {
-  height: 385px;
+  padding-top: 5px;
+  height: 300px;
   overflow-y: scroll;
   overflow-x: hidden;
   border-style: solid;
@@ -111,11 +118,40 @@ code {
 }
 
 .review-col:hover {
-  border-color: rgb(90, 71, 133);
+  border-color: rgb(219, 205, 250);
 }
 
-.name {
+.reviewName {
   display: flex;
   align-items: center;
   font-style: bold;
+  text-decoration: underline;
+}
+
+.reviewStars {
+  padding-bottom: 3px;
+  margin-left: 15px;
+}
+
+.reviewDate {
+  font-size: 13px;
+  margin: 0;
+}
+
+.reviewText {
+  background-color: rgb(178, 164, 207);
+  padding: 5px;
+  margin: 0, 0, 5, 0;
+}
+
+.movieRating {
+  margin: 0;
+  align-items: center;
+  display: inline-block;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 }

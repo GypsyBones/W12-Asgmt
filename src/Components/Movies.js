@@ -1,7 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Row, Col, Collapse } from "reactstrap";
+import { Rating } from "react-simple-star-rating";
 import MovieReview from "./MovieReview/MovieReview";
 import '../index.css'
 
@@ -20,6 +21,13 @@ const Movie = ({ movie }) => {
     poster,
   } = movie;
   const [open, setOpen] = useState(false);
+  const collapseRef = useRef([]);
+  const buttonHandler = () => {
+    setOpen(true);
+    //collapseRef.current.scrollIntoView({behavior: 'smooth', block: "end", inline: "nearest"});
+  }
+
+  
   console.log(open);
   return (
     <div>
@@ -30,7 +38,7 @@ const Movie = ({ movie }) => {
               <div className='movie-info-btn'>
                 <Button
                   color='link'
-                  onClick={() => setOpen(true)}
+                  onClick={buttonHandler}
                   aria-controls='movie-info'
                   aria-expanded={open}
                 >
@@ -41,7 +49,7 @@ const Movie = ({ movie }) => {
             </div>
         </div>
         {open === true && (
-        <Collapse isOpen={open}>  
+        <Collapse ref={collapseRef} isOpen={open}>  
           <Row className="movie-toggle">
             <Col>
               <Row>
@@ -52,7 +60,7 @@ const Movie = ({ movie }) => {
                 </Col>
                 <Col className='col info-container'>
                   <div className="titleContainer">
-                    <h3>{title}</h3>{year}
+                    <h2>{title}</h2>{year}
                   </div>
                   <div className="infoItems">
                     <h5>Directed by {director}</h5>
@@ -68,18 +76,37 @@ const Movie = ({ movie }) => {
                 <Col className='col'>
                   <div>
                     <Row className="btnContainer">
-                      <Button className="close" variant='close' onClick={() => setOpen(false)}>
-                        X
+                      <div className="empty">d</div>
+                      <Button className="button-close"variant='close' onClick={() => setOpen(false)}>
+                        X 
                       </Button>
                     </Row>
-                    <Row className="review-col">
-                      <div>
-                        <h2>Reviews</h2>
-                      </div>
-                      <h4>{rating}★</h4>
-                      <div>
-                        <MovieReview movieID={id} />
-                      </div>
+                    <Row className='reviewRow'>
+                      <Col className="review-col">
+                        <Row>
+                          <Col className="titleContainer">
+                            <Col className="col">
+                              <h2>Reviews</h2>
+                            </Col>
+                            <Col>
+                              <Row className=" movieRating">
+                                <Col className="col">
+                                  Average:
+                                </Col>
+                                <Col className="col rating">
+                                  <Rating 
+                                  size={20} 
+                                  readonly 
+                                  initialValue={rating}/>
+                                </Col> 
+                              </Row>
+                            </Col>
+                          </Col>
+                        </Row>
+                        <div>
+                          <MovieReview movieID={id} />
+                        </div>
+                      </Col>
                     </Row>
                   </div>
                 </Col>
